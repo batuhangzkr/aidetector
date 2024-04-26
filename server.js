@@ -40,7 +40,7 @@ const server = http.createServer((req, res) => {
     res.end('Sayfa bulunamadı');
   }
 });
-
+require('./App');
 server.listen(port, hostname, () => {
   console.log(`Sunucu http://${hostname}:${port}/ adresinde çalışıyor.`);
 });
