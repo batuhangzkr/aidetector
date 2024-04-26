@@ -200,14 +200,19 @@ const responseHTML = `
 </html>
 `;
 
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('Kod alındı ve işlendi');
+      res.writeHead(200, {'Content-Type': 'text/html'});
+res.end(responseHTML);
+      } else {
+        res.writeHead(400, {'Content-Type': 'text/plain'});
+        res.end('Incorrect content type');
+      }
     });
   } else {
     res.writeHead(404, {'Content-Type': 'text/plain'});
-    res.end('Sayfa bulunamadı');
+    res.end('Not Found');
   }
 });
+
 require('./App');
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
