@@ -211,7 +211,3 @@ res.end(responseHTML);
   }
 });
 
-
-server.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running`);
-});
