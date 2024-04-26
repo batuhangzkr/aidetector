@@ -185,7 +185,7 @@ const responseHTML = `
   </div>
 </section>
 <div class="footer">
-  <p>© 2024 GPT Dedector. All rights reserved.</p>
+  <p>© 2024 GPT Detector. All rights reserved.</p>
 </div>
 <script>
   var x = ${finalresult};
