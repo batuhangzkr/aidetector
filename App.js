@@ -1,105 +1,10 @@
-
-
-
-const http = require('http');
-const { StringDecoder } = require('string_decoder');
-
-const server = http.createServer((req, res) => {
-    if (req.method === 'POST' && req.url === '/kodGonder') {
-        const decoder = new StringDecoder('utf-8');
-        let data = '';
-
-        // Veri parçalarını biriktir
-        req.on('data', (chunk) => {
-            data += decoder.write(chunk);
-        });
-
-        // Veri alımı tamamlandığında
-        req.on('end', () => {
-            data += decoder.end();
-
-            // İçerik tipi application/x-www-form-urlencoded olmalı
-            if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
-                const parsedData = new URLSearchParams(data);
-                const kod = parsedData.get('kod'); // "kod" isimli form alanından veriyi al
-                const karakterlerDizisi = [...kod]; // Kodu karakterlerine ayır
-
-                // Karakterler üzerinde işlem yap
-               var xindex=0;
-                var index=0;
-
-    for(var i=0;i<karakterlerDizisi.length;i++)
-    {
-        if(karakterlerDizisi[i]=='i' && karakterlerDizisi[i+1]=='f' && karakterlerDizisi[i+2]==' ' && karakterlerDizisi[i+3]=='(')
-        {
-            xindex++;
-        }
-        else if(karakterlerDizisi[i]=='i' && karakterlerDizisi[i+1]=='f' && karakterlerDizisi[i+2]=='('){
-            index++;
-        }
-         if(karakterlerDizisi[i]==')' && karakterlerDizisi[i+1]==' ' && karakterlerDizisi[i+2]=='{')
-        {
-            xindex++;
-        }
-        else if(karakterlerDizisi[i]==')' && karakterlerDizisi[i+1]=='{'){
-            index++;
-        }
-        if(karakterlerDizisi[i]==',' && karakterlerDizisi[i+1]==' ' && karakterlerDizisi[i+2]!=' ')
-        {
-            xindex++;
-        }
-        else if(karakterlerDizisi[i]==',' && karakterlerDizisi[i+1]!=' '){
-            index++;
-        }
-        if(karakterlerDizisi[i]=='f' && karakterlerDizisi[i+1]=='o' && karakterlerDizisi[i+2]=='r' && karakterlerDizisi[i+3]==' ' && karakterlerDizisi[i+4]=='(')
-        {
-            xindex++;
-        }
-        else if(karakterlerDizisi[i]=='f' && karakterlerDizisi[i+1]=='o' && karakterlerDizisi[i+2]=='r' && karakterlerDizisi[i+3]=='('){
-            index++;
-        }
-        if(karakterlerDizisi[i]=='e' && karakterlerDizisi[i+1]=='l' && karakterlerDizisi[i + 2] == 's' && karakterlerDizisi[i + 3] == 'e' && karakterlerDizisi[i + 4] == ' ' && karakterlerDizisi[i + 5] == '{') {
-            xindex++;
-        } else if (karakterlerDizisi[i] == 'e' && karakterlerDizisi[i + 1] == 'l' && karakterlerDizisi[i + 2] == 's' && karakterlerDizisi[i + 3] == 'e' && karakterlerDizisi[i + 4] == '{') {
-            index++;
-        }
-        if (karakterlerDizisi[i] == 'w' && karakterlerDizisi[i + 1] == 'h' && karakterlerDizisi[i + 2] == 'i' && karakterlerDizisi[i + 3] == 'l' && karakterlerDizisi[i + 4] == 'e' && karakterlerDizisi[i + 5] == ' ') {
-            xindex++;
-        } else if (karakterlerDizisi[i] == 'w' && karakterlerDizisi[i + 1] == 'h' && karakterlerDizisi[i + 2] == 'i' && karakterlerDizisi[i + 3] == 'l' && karakterlerDizisi[i + 4] == 'e' && karakterlerDizisi[i + 5] == '(') {
-            index++;
-        }
-        if (karakterlerDizisi[i] == 'c' && karakterlerDizisi[i + 1] == 'o' && karakterlerDizisi[i + 2] == 'n' && karakterlerDizisi[i + 3] == 's' && karakterlerDizisi[i+4]=='t' && karakterlerDizisi[i+5]==' ' && karakterlerDizisi[i+6]=='{')
-        {
-            xindex++;
-        }
-        else if(karakterlerDizisi[i]=='c' && karakterlerDizisi[i+1]=='o' && karakterlerDizisi[i+2]=='n' && karakterlerDizisi[i+3]=='s' && karakterlerDizisi[i+4]=='t' && karakterlerDizisi[i+5]=='{'){
-            index++;
-        }
-
-    }
-    var finalresult=0;
-        var resultx=xindex/(xindex+index);
-
-        if(resultx>=0.90)
-        {
-            finalresult=1;
-        }
-        else if (resultx>=0.65)
-        {
-            finalresult=0.65;
-        }
-        else
-        {
-            finalresult=0;
-        }
-const responseHTML = `
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <title>GPT DEDECTOR 2024 - Result</title>
-            <style>
-              @import url(https://fonts.googleapis.com/css?family=Bree+Serif);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI DETECTOR 2024</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Bree+Serif);
         @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
         * {
@@ -118,13 +23,20 @@ const responseHTML = `
         }
 
         .header {
-            background-color: #003366;
+            background-color: #003366; /* Mavi tonlarında bir renk */
             color: #ffffff;
             padding: 20px;
             text-align: center;
         }
 
-        .main-content {
+        .footer {
+            background-color: #001a33; /* Daha koyu bir mavi tonu */
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #contact {
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -132,7 +44,7 @@ const responseHTML = `
             justify-content: center;
         }
 
-        .result-box {
+        #form {
             width: 80%;
             max-width: 800px;
             margin: 0 auto;
@@ -142,75 +54,63 @@ const responseHTML = `
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
-        .result-box h2 {
-            font: 24px 'Bree Serif', serif;
+        #form h1 {
+            font: 36px 'Bree Serif', serif;
             color: #fff;
             margin-bottom: 20px;
             text-align: center;
         }
 
-        .result-box p {
-            font: 16px 'Open Sans', sans-serif;
-            color: #fff;
-            background: #333;
+        #form textarea {
+            width: 100%;
             padding: 10px;
+            margin-bottom: 20px;
             border-radius: 5px;
-            word-wrap: break-word;
+            border: none;
+            font: 14px 'Open Sans', sans-serif;
+            min-height: 150px;
+            background: #333;
+            color: #fff;
+            resize: vertical;
         }
 
-        .footer {
-            background-color: #001a33;
-            color: #ffffff;
+        #form button {
+            display: block;
+            width: 100px;
             padding: 10px;
-            text-align: center;
+            margin: 10px auto 0;
+            background: #0055a5;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font: bold 14px 'Bree Serif', serif;
         }
-            </style>
-          </head>
-          <body>
+
+        #form button:hover {
+            background: #0077cc;
+        }
+
+    </style>
+</head>
+<body>
 <div class="header">
-  <h1>GPT DEDECTOR 2024 - Result</h1>
+    <h1>AI DETECTOR 2024</h1>
 </div>
-<section class="main-content">
-  <div class="result-box">
-    <h2>Analysis Result</h2>
-    <div id="analysisResult"><!-- Sonuçlar burada gösterilecek --></div>
-  </div>
+
+<section id="contact">
+    <div id="form">
+        <h1>Enter Your Code Below</h1>
+        <form action="http://localhost:3000/kodGonder" method="POST">
+            <textarea name="kod" placeholder="Enter your code here..."></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </section>
+
 <div class="footer">
-  <p>© 2024 GPT Dedector. All rights reserved.</p>
+    <p>© 2024 AI Detector. All rights reserved.</p>
+    <p><a href="https://github.com/batuhangzkr">github:batuhangzkr</a></p>
 </div>
-<script>
-  var x = ${finalresult};
-  
-  var resultText = '';
-  if (x === 1) {
-      resultText = '<strong>The code has been written by AI.</strong>';
-  } else if (x === 0.65) {
-      resultText = '<strong>This code may have been written by AI.</strong>';
-  } else {
-      resultText = '<strong>The code has not been written by AI.</strong>';
-  }
-  
-  document.getElementById('analysisResult').innerHTML = resultText;
-</script>
+
 </body>
 </html>
-`;
-
-res.writeHead(200, {'Content-Type': 'text/html'});
-res.end(responseHTML);
-      } else {
-        res.writeHead(400, {'Content-Type': 'text/plain'});
-        res.end('Incorrect content type');
-      }
-    });
-  } else {
-    res.writeHead(404, {'Content-Type': 'text/plain'});
-    res.end('Not Found');
-  }
-});
-
-
-server.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running`);
-});
