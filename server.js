@@ -41,6 +41,7 @@ const server = http.createServer((req, res) => {
   }
 });
 require('./App');
-server.listen(port, hostname, () => {
-  console.log(`Sunucu http://${hostname}:${port}/ adresinde çalışıyor.`);
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
