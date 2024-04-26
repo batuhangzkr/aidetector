@@ -2,8 +2,6 @@ const http = require('http');
 const fs = require('fs');
 const { StringDecoder } = require('string_decoder');
 
-const hostname = process.env.PORT;
-const port = 3000;
 
 const server = http.createServer((req, res) => {
   if (req.method === 'GET' && req.url === '/') {
