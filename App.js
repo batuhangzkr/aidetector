@@ -1,35 +1,28 @@
-const express = require('express');
+
+
+
+const http = require('http');
 const { StringDecoder } = require('string_decoder');
-const path = require('path');
-const server = express();
 
-// Express'in JSON ve URL Encoded parser middleware'lerini kullan.
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
+const server = http.createServer((req, res) => {
+    if (req.method === 'POST' && req.url === '/kodGonder') {
+        const decoder = new StringDecoder('utf-8');
+        let data = '';
 
-// Statik dosyaları sunacak middleware.
-server.use(express.static(path.join(__dirname))); // 'public' dizini yerine direk root dizini kullanılıyor.
+        // Veri parçalarını biriktir
+        req.on('data', (chunk) => {
+            data += decoder.write(chunk);
+        });
 
-// Anasayfa için rota.
-server.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
 
-// Kod analizi için POST rota.
-server.post('/kodGonder', (req, res) => {
-  const decoder = new StringDecoder('utf-8');
-  let data = '';
+        // Veri alımı tamamlandığında
+        req.on('end', () => {
+            data += decoder.end();
 
-  req.on('data', (chunk) => {
-    data += decoder.write(chunk);
-  });
-
-  req.on('end', () => {
-    data += decoder.end();
-
-    if (req.headers['content-type'] === 'serverlication/x-www-form-urlencoded') {
-      const parsedData = new URLSearchParams(data);
-      const kod = parsedData.get('kod'); // "kod" isimli form alanından veriyi al.
+            // İçerik tipi application/x-www-form-urlencoded olmalı
+            if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
+                const parsedData = new URLSearchParams(data);
+                const kod = parsedData.get('kod'); // "kod" isimli form alanından veriyi al
                 const karakterlerDizisi = [...kod]; // Kodu karakterlerine ayır
 
                 // Karakterler üzerinde işlem yap
@@ -206,16 +199,19 @@ const responseHTML = `
 `;
 
 res.writeHead(200, {'Content-Type': 'text/html'});
-      res.end(responseHTML);
-    } else {
-      res.writeHead(400, {'Content-Type': 'text/plain'});
-      res.end('Incorrect content type');
-    }
-  });
+res.end(responseHTML);
+      } else {
+        res.writeHead(400, {'Content-Type': 'text/plain'});
+        res.end('Incorrect content type');
+      }
+    });
+  } else {
+    res.writeHead(404, {'Content-Type': 'text/plain'});
+    res.end('Not Found');
+  }
 });
 
-// Sunucuyu belirtilen portta dinle.
-const port = process.env.PORT || 3000;
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+
+server.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running`);
 });
