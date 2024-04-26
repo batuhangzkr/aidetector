@@ -1,10 +1,21 @@
 const express = require('express');
 const { StringDecoder } = require('string_decoder');
+const path = require('path');
 const app = express();
 
-// POST verisi işlemek için
+// Express'in JSON ve URL Encoded parser middleware'lerini kullan.
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Statik dosyaları sunacak middleware.
+app.use(express.static(path.join(__dirname))); // 'public' dizini yerine direk root dizini kullanılıyor.
+
+// Anasayfa için rota.
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Kod analizi için POST rota.
 app.post('/kodGonder', (req, res) => {
   const decoder = new StringDecoder('utf-8');
   let data = '';
@@ -18,9 +29,12 @@ app.post('/kodGonder', (req, res) => {
 
     if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
       const parsedData = new URLSearchParams(data);
-      const kod = parsedData.get('kod');
-      var xindex = 0;
-      var index = 0;
+      const kod = parsedData.get('kod'); // "kod" isimli form alanından veriyi al.
+                const karakterlerDizisi = [...kod]; // Kodu karakterlerine ayır
+
+                // Karakterler üzerinde işlem yap
+               var xindex=0;
+                var index=0;
 
     for(var i=0;i<karakterlerDizisi.length;i++)
     {
@@ -191,16 +205,17 @@ const responseHTML = `
 </html>
 `;
 
-res.writeHead(200, { 'Content-Type': 'text/html' });
+res.writeHead(200, {'Content-Type': 'text/html'});
       res.end(responseHTML);
     } else {
-      res.writeHead(400, { 'Content-Type': 'text/plain' });
+      res.writeHead(400, {'Content-Type': 'text/plain'});
       res.end('Incorrect content type');
     }
   });
 });
 
-// Heroku tarafından belirlenen porta veya 3000 portuna bağlan
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running`);
+// Sunucuyu belirtilen portta dinle.
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
