@@ -1,10 +1,15 @@
 
 
 
-const http = require('http');
+const express = require('express');
 const { StringDecoder } = require('string_decoder');
+const path = require('path');
+const app = express();
 
-const server = http.createServer((req, res) => {
+// Static middleware to serve your static files
+app.use(express.static(path.join(__dirname)));
+
+app.post('/kodGonder', (req, res) => {
     if (req.method === 'POST' && req.url === '/kodGonder') {
         const decoder = new StringDecoder('utf-8');
         let data = '';
@@ -207,11 +212,11 @@ res.end(responseHTML);
     });
   } else {
     res.writeHead(404, {'Content-Type': 'text/plain'});
-    res.end('Niye çalışmıyyyyoooon');
+    res.end('Niye calismiyon');
   }
 });
 
 
-server.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server is running');
 });
