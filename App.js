@@ -1,15 +1,10 @@
 
 
 
-const express = require('express');
+const http = require('http');
 const { StringDecoder } = require('string_decoder');
-const path = require('path');
-const app = express();
 
-// Static middleware to serve your static files
-app.use(express.static(path.join(__dirname)));
-
-app.post('/kodGonder', (req, res) => {
+const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url === '/kodGonder') {
         const decoder = new StringDecoder('utf-8');
         let data = '';
@@ -212,11 +207,11 @@ res.end(responseHTML);
     });
   } else {
     res.writeHead(404, {'Content-Type': 'text/plain'});
-    res.end('Niye calismiyon');
+    res.end('Not Found');
   }
 });
 
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log('Server is running');
+server.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running`);
 });
