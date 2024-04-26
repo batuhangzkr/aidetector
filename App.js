@@ -1,22 +1,22 @@
 const express = require('express');
 const { StringDecoder } = require('string_decoder');
 const path = require('path');
-const app = express();
+const server = express();
 
 // Express'in JSON ve URL Encoded parser middleware'lerini kullan.
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
 
 // Statik dosyaları sunacak middleware.
-app.use(express.static(path.join(__dirname))); // 'public' dizini yerine direk root dizini kullanılıyor.
+server.use(express.static(path.join(__dirname))); // 'public' dizini yerine direk root dizini kullanılıyor.
 
 // Anasayfa için rota.
-app.get('/', (req, res) => {
+server.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Kod analizi için POST rota.
-app.post('/kodGonder', (req, res) => {
+server.post('/kodGonder', (req, res) => {
   const decoder = new StringDecoder('utf-8');
   let data = '';
 
@@ -27,7 +27,7 @@ app.post('/kodGonder', (req, res) => {
   req.on('end', () => {
     data += decoder.end();
 
-    if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
+    if (req.headers['content-type'] === 'serverlication/x-www-form-urlencoded') {
       const parsedData = new URLSearchParams(data);
       const kod = parsedData.get('kod'); // "kod" isimli form alanından veriyi al.
                 const karakterlerDizisi = [...kod]; // Kodu karakterlerine ayır
@@ -216,6 +216,6 @@ res.writeHead(200, {'Content-Type': 'text/html'});
 
 // Sunucuyu belirtilen portta dinle.
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
