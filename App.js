@@ -1,25 +1,32 @@
-
-
-import expres from "express";
 const http = require('http');
 const { StringDecoder } = require('string_decoder');
+const fs = require('fs');
+const path = require('path');
+
+const PORT = process.env.PORT || 5000; // Heroku'dan gelen port veya varsayılan olarak 5000
 
 const server = http.createServer((req, res) => {
-    if (req.method === 'POST' && req.url === '/kodGonder') {
+    // Statik index.html dosyasını sun
+    if (req.method === 'GET' && req.url === '/') {
+        const indexPath = path.join(__dirname, 'index.html');
+        fs.readFile(indexPath, (err, content) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Server Error');
+                return;
+            }
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(content);
+        });
+    }
+    else if (req.method === 'POST' && req.url === '/kodGonder') {
         const decoder = new StringDecoder('utf-8');
         let data = '';
-
-        // Veri parçalarını biriktir
-        req.on('data', (chunk) => {
+        req.on('data', chunk => {
             data += decoder.write(chunk);
         });
-
-
-        // Veri alımı tamamlandığında
         req.on('end', () => {
             data += decoder.end();
-
-            // İçerik tipi application/x-www-form-urlencoded olmalı
             if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
                 const parsedData = new URLSearchParams(data);
                 const kod = parsedData.get('kod'); // "kod" isimli form alanından veriyi al
@@ -197,17 +204,19 @@ const responseHTML = `
 </body>
 </html>
 `;
-
-res.writeHead(200, {'Content-Type': 'text/html'});
-res.end(responseHTML);
-      } else {
-        res.writeHead(400, {'Content-Type': 'text/plain'});
-        res.end('Incorrect content type');
-      }
-    });
-  } else {
-    res.writeHead(404, {'Content-Type': 'text/plain'});
-    res.end('Not Found');
-  }
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.end(responseHTML);
+            } else {
+                res.writeHead(400, {'Content-Type': 'text/plain'});
+                res.end('Incorrect content type');
+            }
+        });
+    } else {
+        res.writeHead(404, {'Content-Type': 'text/plain'});
+        res.end('Not Found');
+    }
 });
 
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
