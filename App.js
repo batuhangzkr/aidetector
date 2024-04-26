@@ -105,7 +105,7 @@ const responseHTML = `
           <html lang="en">
           <head>
             <meta charset="UTF-8">
-            <title>GPT DEDECTOR 2024 - Result</title>
+            <title>GPT DETECTOR 2024 - Result</title>
             <style>
               @import url(https://fonts.googleapis.com/css?family=Bree+Serif);
         @import url(https://fonts.googleapis.com/css?family=Open+Sans);
