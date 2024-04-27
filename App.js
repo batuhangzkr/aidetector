@@ -174,7 +174,7 @@ const responseHTML = `
         }
             </style>
           </head>
-          <body style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1kCaXjTRzNlG8Yjk39oCFv1o54vTBBsrqBw&s');">
+          <body style="background-image: url('https://i.ytimg.com/vi/U6A7Iv0RbdA/maxresdefault.jpg');">
 
 <div class="header">
   <h1>GPT DEDECTOR 2024 - Result</h1>
