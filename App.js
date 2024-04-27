@@ -193,11 +193,11 @@ const responseHTML = `
   
   var resultText = '';
   if (x === 1) {
-      resultText = '<strong>The code has been written by AI.</strong>';
+      resultText = '<strong><font color="red">The code has been written by AI.</font></strong>';
   } else if (x === 0.65) {
-      resultText = '<strong>This code may have been written by AI.</strong>';
+      resultText = '<strong><font color="yellow">This code may have been written by AI.</font></strong>';
   } else {
-      resultText = '<strong>The code has not been written by AI.</strong>';
+      resultText = '<strong><font color="green">The code has not been written by AI.</font></strong>';
   }
   
   document.getElementById('analysisResult').innerHTML = resultText;
