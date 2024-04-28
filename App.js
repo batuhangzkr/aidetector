@@ -76,13 +76,7 @@ const server = http.createServer((req, res) => {
         } else if (karakterlerDizisi[i] == 'w' && karakterlerDizisi[i + 1] == 'h' && karakterlerDizisi[i + 2] == 'i' && karakterlerDizisi[i + 3] == 'l' && karakterlerDizisi[i + 4] == 'e' && karakterlerDizisi[i + 5] == '(') {
             index++;
         }
-        if (karakterlerDizisi[i] == 'c' && karakterlerDizisi[i + 1] == 'o' && karakterlerDizisi[i + 2] == 'n' && karakterlerDizisi[i + 3] == 's' && karakterlerDizisi[i+4]=='t' && karakterlerDizisi[i+5]==' ' && karakterlerDizisi[i+6]=='{')
-        {
-            xindex++;
-        }
-        else if(karakterlerDizisi[i]=='c' && karakterlerDizisi[i+1]=='o' && karakterlerDizisi[i+2]=='n' && karakterlerDizisi[i+3]=='s' && karakterlerDizisi[i+4]=='t' && karakterlerDizisi[i+5]=='{'){
-            index++;
-        }
+       
 
     }
     var finalresult=0;
