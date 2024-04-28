@@ -105,6 +105,7 @@ const responseHTML = `
           <!DOCTYPE html>
           <html lang="en">
           <head>
+          <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtVLd5BnxE4qSu8MFVQ2uKTBAQIcC6K7a3MIMWGpQ2Lw&s" type="image/x-icon">
             <meta charset="UTF-8">
             <title>GPT DETECTOR 2024 - Result</title>
             <style>
