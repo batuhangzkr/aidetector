@@ -88,7 +88,7 @@ const server = http.createServer((req, res) => {
     var finalresult=0;
         var resultx=xindex/(xindex+index);
 
-        if(resultx>=0.90)
+        if(resultx>=0.85)
         {
             finalresult=1;
         }
