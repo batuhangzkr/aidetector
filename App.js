@@ -177,7 +177,7 @@ const responseHTML = `
           <body style="background-image: url('https://i.ytimg.com/vi/U6A7Iv0RbdA/maxresdefault.jpg');">
 
 <div class="header">
-  <h1>GPT DEDECTOR 2024 - Result</h1>
+  <h1>AI DETECTOR 2024 - Result</h1>
 </div>
 <section class="main-content">
   <div class="result-box">
@@ -186,7 +186,7 @@ const responseHTML = `
   </div>
 </section>
 <div class="footer">
-  <p>© 2024 GPT Detector. All rights reserved.</p>
+  <p>© 2024 AI Detector. All rights reserved.</p>
 </div>
 <script>
   var x = ${finalresult};
